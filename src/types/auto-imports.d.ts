@@ -7,6 +7,8 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const MbtiModelClass: typeof import('../composables/typeConst')['MbtiModelClass']
+  const QuestionClass: typeof import('../composables/typeConst')['QuestionClass']
   const afterAll: typeof import('vitest')['afterAll']
   const afterEach: typeof import('vitest')['afterEach']
   const assert: typeof import('vitest')['assert']
