@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { queryMbtiData } from '@/api'
-import type { PickerColumn } from 'vant'
+import type { PickerColumn, showNotify, showDialog } from 'vant'
 import useAppStore from '@/stores/modules/app'
 import { languageColumns, locale } from '@/utils/i18n'
 
@@ -8,6 +8,7 @@ const appStore = useAppStore()
 const checked = ref<boolean>(isDark.value)
 
 //数据集合
+//模型类定义在：\src\composables\typeConst.ts
 var mbtiData: ModelClass[] = []
 
 //记录用户对每一道题目的选择
@@ -41,11 +42,10 @@ function getMbtiData() {
   queryMbtiData().then(({ code, result }) => {
     if (code === 0) {
       mbtiData = result as ModelClass[]
-
       //渲染显示第一条数据
       currentData.value = mbtiData[currentIndex.value]
 
-      //let me see…
+      //let me see…🤣
       // mbtiData.forEach(item => {
       //   console.log('序号:' + item.no)
       //   console.log('Q1: ' + item.question[0].item, '; is ' + item.question[0].option)
@@ -53,6 +53,8 @@ function getMbtiData() {
       //   console.log('\r\n')
       // });
 
+    } else {
+      showNotify({ type: 'warning', message: '数据获取失败了啊!🙃' });
     }
   })
 }
@@ -60,7 +62,6 @@ function getMbtiData() {
 
 // 点击事件函数
 function handleClick(optionIndex: number) {
-
   if (currentData.value) {
     mbtiOptionsArray.push(currentData.value.question[optionIndex].option); //记录用户的选择 只记录 MBTI字母
 
@@ -69,12 +70,31 @@ function handleClick(optionIndex: number) {
       currentIndex.value += 1;
       currentData.value = mbtiData[currentIndex.value];
     } else {
+      //计算mbti：
       computedMbtiType();
-      alert('测完了hhh'); //TODO:换个好看的
+      showDialog({
+        title: '测完了😏',
+        message: '您的MBTI 人格类型:' + mbtiType.value,
+        theme: 'round-button',
+      }).then(() => {
+        // on close
+      });
     }
   }
-
 }
+
+/**
+ * 点击 上一题 按钮 
+ */
+function preQuestion() {
+  //好优雅 😀
+  currentIndex.value -= 1;
+  //好优雅 😂
+  currentData.value = mbtiData[currentIndex.value];
+  //好优雅 🆒
+  mbtiOptionsArray.pop();
+}
+
 
 /**
 * 计算结果 （真优雅的实现）
@@ -109,11 +129,11 @@ function computedMbtiType() {
 }
 
 
-
 function toggle() {
   toggleDark()
   appStore.switchMode(isDark.value ? 'dark' : 'light')
 }
+
 
 const { t } = useI18n()
 
@@ -126,14 +146,6 @@ function onLanguageConfirm(event: { selectedOptions: PickerColumn }) {
   showLanguagePicker.value = false
 }
 
-const menuItems = computed(() => ([
-  // { title: t('menus.mockGuide'), route: 'mock' },
-  // { title: t('menus.echartsDemo'), route: 'charts' },
-  // { title: t('menus.unocssExample'), route: 'unocss' },
-  // { title: t('menus.persistPiniaState'), route: 'counter' },
-  // { title: t('menus.keepAlive'), route: 'keepalive' },
-  // { title: t('menus.404Demo'), route: 'unknown' },
-]))
 </script>
 
 <template>
@@ -146,33 +158,25 @@ const menuItems = computed(() => ([
 
     <VanCell is-link :title="t('menus.language')" :value="language" @click="showLanguagePicker = true" />
   </VanCellGroup>
-  <!-- 
-  <VanCellGroup :title="t('menus.exampleComponents')" :border="false" :inset="true">
-    <template v-for="item in menuItems" :key="item.route">
-      <VanCell :title="item.title" :to="item.route" is-link />
-    </template>
-  </VanCellGroup>
- -->
 
- <div>
+  <div>
     <h2>您更倾向哪种？</h2>
     <div v-if="currentData">
       <h3>问题序号: {{ currentData.no }}</h3>
       <div v-for="(questionItem, index) in currentData.question" :key="index" @click="handleClick(index)">
-        <p>{{ questionItem.item }}</p>
+        <p
+          class="p-4 border rounded-md cursor-pointer hover:bg-gradient-to-r hover:from-blue-100 hover:to-blue-300 hover:text-blue-600 hover:shadow-md transition-all">
+          {{ questionItem.item }}
+        </p>
       </div>
     </div>
   </div>
-
   <div v-if="mbtiType">
     <h3>您的MBTI 人格类型:</h3>
     <p>{{ mbtiType }}</p>
   </div>
+  <van-button block plain hairline type="primary" @click="preQuestion()">上一题</van-button>
 
-  <van-popup v-model:show="showLanguagePicker" position="bottom">
-    <van-picker v-model="languageValues" :columns="languageColumns" @confirm="onLanguageConfirm"
-      @cancel="showLanguagePicker = false" />
-  </van-popup>
 </template>
 
 <route lang="json">{
