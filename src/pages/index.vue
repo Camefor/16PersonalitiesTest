@@ -160,7 +160,8 @@ function onLanguageConfirm(event: { selectedOptions: PickerColumn }) {
   </VanCellGroup>
 
   <div>
-    <h2>您更倾向哪种？</h2>
+    <h2 class="">MBTI 人格类型测试</h2>
+    <h3>您更倾向哪种？</h3>
     <div v-if="currentData">
       <h3>问题序号: {{ currentData.no }}</h3>
       <div v-for="(questionItem, index) in currentData.question" :key="index" @click="handleClick(index)">
@@ -175,7 +176,10 @@ function onLanguageConfirm(event: { selectedOptions: PickerColumn }) {
     <h3>您的MBTI 人格类型:</h3>
     <p>{{ mbtiType }}</p>
   </div>
-  <van-button block plain hairline type="primary" @click="preQuestion()">上一题</van-button>
+
+  <div v-if="currentIndex > 0">
+    <van-button block plain hairline type="primary" @click="preQuestion()">上一题</van-button>
+  </div>
 
 </template>
 
