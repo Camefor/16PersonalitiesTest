@@ -20,6 +20,7 @@ var currentData = ref<ModelClass | null>()
 
 
 var mbtiType = ref<string>('')
+var shoMbtiType = ref<boolean>(false)
 
 onMounted(() => {
 
@@ -77,7 +78,7 @@ function handleClick(optionIndex: number) {
         message: '您的MBTI 人格类型:' + mbtiType.value,
         theme: 'round-button',
       }).then(() => {
-        // on close
+        shoMbtiType.value = true
       });
     }
   }
@@ -93,6 +94,9 @@ function preQuestion() {
   currentData.value = mbtiData[currentIndex.value];
   //好优雅 🆒
   mbtiOptionsArray.pop();
+
+  shoMbtiType.value = false
+  mbtiType.value = '';
 }
 
 
@@ -172,7 +176,7 @@ function onLanguageConfirm(event: { selectedOptions: PickerColumn }) {
       </div>
     </div>
   </div>
-  <div v-if="mbtiType">
+  <div v-if="shoMbtiType">
     <h3>您的MBTI 人格类型:</h3>
     <p>{{ mbtiType }}</p>
   </div>
