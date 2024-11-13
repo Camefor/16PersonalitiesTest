@@ -16,12 +16,21 @@ var objectOfAttrs = ref<object>({
     style: 'font-size:12'
 })
 
+const someUrl = ref<string>('https://google.com')
+
+var attributeName = ref<string>('href') //属性名称 (attribute name)
+var eventName = 'dblclick' //dbclick other events
+
 
 function pull() {
     queryProse().then(({ code, result }) => {
         if (code === 0)
             messages.value = result
     })
+}
+
+function doSomething() {
+    showNotify({ type: 'warning', message: '别挨我!🙃' });
 }
 
 function testClick() {
@@ -74,8 +83,25 @@ function testClick() {
     <!-- <button :disabled="isButtonDisabled">我是一个button</button> -->
     <!-- <VanButton type="default" :disabled="isButtonDisabled" >我也是一个button</VanButton> -->
 
-    <div v-bind="objectOfAttrs">我是一个div</div>
+    <!-- <div v-bind="objectOfAttrs">我是一个div</div> -->
 
+
+    <!-- <div>
+        需要“参数”的指令
+        <a :href="someUrl">我是一个超链接</a>
+    </div> -->
+
+
+    <!-- <div>
+        <a v-on:click="doSomething">我是一个超链接</a>
+    </div> -->
+    <!-- 简写  v-on 有一个相应的缩写，即 @ 字符。-->
+    <!-- <a @click="doSomething">我是一个超链接</a> -->
+
+    <!-- 就是动态设置属性(attbibute的) 优雅呀😂-->
+    <!-- <a v-bind:[attributeName]="someUrl">我是一个超链接</a>   -->
+
+    <a v-on:[eventName]="doSomething">我是一个超链接 </a>
     <van-divider />
 
     <VanButton type="default" round block @click="testClick">
