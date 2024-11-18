@@ -26,31 +26,16 @@ export default {
 }
 </script> -->
 
-
 <!-- 第二种   单文件组件 (SFC) -->
 
 <script setup lang="ts">
 
-const count = ref(0)
-const obj = ref({
-    nested: { count1: 0 },
-    arr: ['foo', 'bar']
+// const count = ref(0)
+// const obj = ref({
+//     nested: { count1: 0 },
+//     arr: ['foo', 'bar']
 
-})
-async function doSomething() {
-    // count.value++
-    for (let index = 0; index < 100; index++) {
-        // obj.value.nested.count1++
-        obj.value.arr.push('hi bob')
-        await nextTick()
-    }
-    // obj.value.nested.count1++;
-    // obj.value.arr.push('hi bob')
-
-
-    console.log(count) // RefImpl 
-    console.log(state) // Proxy //代理对象 同时它和原始对象 也不相等
-}
+// })
 
 // 响应式基础：😋：
 // ref 类似一个对象。里面有 value, getter, setter 字段 ，value是用户定义的类型，（内部值）。getter setter 接收和返回数据。getter 执行track追踪引用这个ref对象的组件(DOM对象), setter中会有trigger执行触发操作
@@ -58,8 +43,50 @@ async function doSomething() {
 
 //reactive() API不同 它使对象本身具有响应性：
 
-const state = reactive({ count: 0 })
+// const state = reactive({ count: 0 })
 // Reactive Proxy vs. Original
+
+
+
+const count = ref(0) //value = 0
+var state = reactive({
+    count //0
+})
+
+
+const otherCount = ref(2)
+
+
+async function doSomething() {
+    // count.value++
+    // for (let index = 0; index < 100; index++) {
+    //     // obj.value.nested.count1++
+    //     obj.value.arr.push('hi bob')
+    //     await nextTick()
+    // }
+    // obj.value.nested.count1++;
+    // obj.value.arr.push('hi bob')
+
+
+    // console.log(count) // RefImpl 
+    // console.log(state) // Proxy //代理对象 同时它和原始对象 也不相等
+
+    // console.log(state.count) //0
+    // state.count = 1 //count.value = 1
+    // console.log(count.value) //1
+
+    //reactive ref 解包好难啊 不想学了 先跳过😵‍💫 以后会再遇到再补充学习
+    const books = reactive([ref('Vue 3 Guide')])
+    console.log(books[0].value) //没有解包;所以要加.value 才能取值
+
+    const map = reactive(new Map([['count',ref(0)]]))
+    console.log(map.get('count').value)
+    
+}
+
+
+
+
 
 </script>
 
@@ -71,10 +98,12 @@ const state = reactive({ count: 0 })
     <!-- <div>{{ obj.nested.count1 }}</div>
     <div>{{ obj.arr }}</div> -->
 
-
+<!--
     <button @click="state.count++">
         {{ state.count }}
     </button>
+    -->
+    
     <van-divider />
     <van-divider />
 
