@@ -28,6 +28,8 @@ declare module 'vue-router/auto-routes' {
     '/learn-vue/essentials/lesson2-reactivity-fundamentals': RouteRecordInfo<'/learn-vue/essentials/lesson2-reactivity-fundamentals', '/learn-vue/essentials/lesson2-reactivity-fundamentals', Record<never, never>, Record<never, never>>,
     '/learn-vue/essentials/lesson3-computed': RouteRecordInfo<'/learn-vue/essentials/lesson3-computed', '/learn-vue/essentials/lesson3-computed', Record<never, never>, Record<never, never>>,
     '/learn-vue/essentials/lesson4-class-and-style': RouteRecordInfo<'/learn-vue/essentials/lesson4-class-and-style', '/learn-vue/essentials/lesson4-class-and-style', Record<never, never>, Record<never, never>>,
+    '/learn-vue/essentials/lesson5-conditional': RouteRecordInfo<'/learn-vue/essentials/lesson5-conditional', '/learn-vue/essentials/lesson5-conditional', Record<never, never>, Record<never, never>>,
+    '/learn-vue/essentials/lesson6-list': RouteRecordInfo<'/learn-vue/essentials/lesson6-list', '/learn-vue/essentials/lesson6-list', Record<never, never>, Record<never, never>>,
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
     'mock': RouteRecordInfo<'mock', '/mock', Record<never, never>, Record<never, never>>,
     'profile': RouteRecordInfo<'profile', '/profile', Record<never, never>, Record<never, never>>,
